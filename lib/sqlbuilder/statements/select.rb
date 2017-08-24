@@ -4,9 +4,18 @@ module Sqlbuilder
 
 			def initialize(select_builder)
 				@select_builder = select_builder
+				@columns = []
 			end
 
 			"""Builder methods"""
+
+			def columns(columns)
+				@columns = columns
+			end
+
+			def column(column)
+				@columns << column
+			end
 
 			def from(table_name)
 				@table_name = table_name
@@ -39,13 +48,14 @@ module Sqlbuilder
 			end
 
 			def build
-				sql = "SELECT *"
+				sql = "SELECT"
+				sql << " #{@select_builder.columns(@columns)}"
 				sql << " #{@select_builder.from(@table_name)}"
 				sql << " #{@select_builder.where(@where)}" if @where
 				sql << " #{@select_builder.order(@order)}" if @order
 				sql << " #{@select_builder.limit(@limit)}" if @limit
 				sql << " #{@select_builder.offset(@offset)}" if @offset
-				
+
 				sql
 			end
 		end

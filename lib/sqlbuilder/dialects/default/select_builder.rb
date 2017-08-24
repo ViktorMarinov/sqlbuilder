@@ -2,12 +2,20 @@ module Sqlbuilder
 	module Dialects
 		class Default
 			class SelectBuilder
+				def columns(columns)
+					if columns.empty?
+						"*"
+					else
+						columns.map(&:to_s).join(', ')
+					end
+				end
+
 				def from(table_name)
 					"FROM #{table_name}"
 				end
 
 				def where(query_hash)
-					where_clause = query_hash.map { |key, value| "#{key} = #{value}" }.join(' AND ')
+					where_clause = query_hash.map { |key, value| "#{key} = '#{value}'" }.join(' AND ')
 
 					"WHERE #{where_clause}"
 				end

@@ -27,7 +27,7 @@ RSpec.describe Sqlbuilder do
                 .where({username: 'john'})
                 .build()
 
-      expect(query).to eq "SELECT * FROM Users WHERE username = john"
+      expect(query).to eq "SELECT * FROM Users WHERE username = 'john'"
     end
 
     it 'can create a select with order by' do
@@ -47,7 +47,7 @@ RSpec.describe Sqlbuilder do
                 .offset(10)
                 .build()
 
-      expect(query).to eq "SELECT * FROM Users WHERE age = 20 LIMIT 20 OFFSET 10"
+      expect(query).to eq "SELECT * FROM Users WHERE age = '20' LIMIT 20 OFFSET 10"
     end
   end
 
@@ -82,13 +82,43 @@ RSpec.describe Sqlbuilder do
     end
   end
 
-  # describe 'update' do
-  #   it 'can create a basic update statement' do
-  #     query = sql.update()
-  #               .table("Users")
-  #               .set({username: 'john', age: 25})
+  describe 'update' do
+    it 'can create a basic update statement' do
+      query = sql.update()
+                .table("Users")
+                .set({username: 'john', age: 25})
+                .build()
 
-  #     expect(query).to eq "UPDATE Users SET username = \"john\", age = 25"
-  #   end
-  # end
+      expect(query).to eq "UPDATE Users SET username = 'john', age = '25'"
+    end
+
+    it 'can create an update with where clause' do
+      query = sql.update()
+                .table("Users")
+                .set({username: 'john', age: 25})
+                .where({id: 2})
+                .build()
+
+      expect(query).to eq "UPDATE Users SET username = 'john', age = '25' WHERE id = '2'"
+    end
+  end
+
+  describe 'delete' do
+    it 'can create a delete all statement' do
+      query = sql.delete()
+                .from("Users")
+                .build()
+
+      expect(query).to eq "DELETE FROM Users"
+    end
+
+    it 'can create a delete with where' do
+      query = sql.delete()
+                .from("Users")
+                .where({first_name: 'john'})
+                .build()
+
+      expect(query).to eq "DELETE FROM Users WHERE first_name = 'john'"
+    end
+  end
 end
