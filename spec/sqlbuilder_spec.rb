@@ -30,6 +30,24 @@ RSpec.describe Sqlbuilder do
       expect(query).to eq "SELECT * FROM Users WHERE username = 'john'"
     end
 
+    it 'can create a select with inequalities in where' do
+      query = sql.select()
+                .from("Users")
+                .where({age: '> 14'})
+                .build()
+
+      expect(query).to eq "SELECT * FROM Users WHERE age > '14'"
+    end
+
+    it 'can combine equality and inequality in a query' do
+      query = sql.select()
+                .from("Users")
+                .where({age: 20, username: "!= Gosho"})
+                .build()
+
+      expect(query).to eq "SELECT * FROM Users WHERE age = '20' AND username != 'Gosho'"
+    end
+
     it 'can create a select with order by' do
       query = sql.select()
                 .from("Users")
@@ -42,12 +60,11 @@ RSpec.describe Sqlbuilder do
     it 'can create a select with limit and offset' do
       query = sql.select()
                 .from("Users")
-                .where({age: 20})
                 .limit(20)
                 .offset(10)
                 .build()
 
-      expect(query).to eq "SELECT * FROM Users WHERE age = '20' LIMIT 20 OFFSET 10"
+      expect(query).to eq "SELECT * FROM Users LIMIT 20 OFFSET 10"
     end
   end
 

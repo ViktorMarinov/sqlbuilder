@@ -15,7 +15,17 @@ module Sqlbuilder
 				end
 
 				def where(query_hash)
-					where_clause = query_hash.map { |key, value| "#{key} = '#{value}'" }.join(' AND ')
+					where_clause = query_hash.map do |key, value|
+						if value.is_a?(String) &&
+							 ['>', '<', '!='].any? { |comp| value.include? comp }
+
+							#TODO: raise custom exception if has more values after split
+							symbol, extracted_value = value.split(' ')
+							"#{key} #{symbol} '#{extracted_value}'"
+						else
+							"#{key} = '#{value}'"
+						end
+					end.join(' AND ')
 
 					"WHERE #{where_clause}"
 				end

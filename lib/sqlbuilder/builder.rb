@@ -1,13 +1,10 @@
-require "sqlbuilder/version"
-
-require_relative "statements/select"
-require_relative "statements/insert"
-require_relative "statements/update"
-require_relative "statements/delete"
+require_relative 'statements/select'
+require_relative 'statements/insert'
+require_relative 'statements/update'
+require_relative 'statements/delete'
 
 module Sqlbuilder
 	class Builder
-
 		def initialize(dialect)
 			@dialect = dialect
 		end
