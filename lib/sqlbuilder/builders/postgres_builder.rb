@@ -3,6 +3,7 @@ require_relative "../statements/postgres/insert"
 require_relative "../statements/postgres/select"
 require_relative "../statements/postgres/update"
 require_relative "../statements/postgres/delete"
+require_relative "../statements/postgres/sequence"
 
 module Sqlbuilder
   module Builders
@@ -24,7 +25,7 @@ module Sqlbuilder
       end
 
       def sequence(name)
-        Statements::Sequence.new(name)
+        Statements::Postgres::Sequence.new(name)
       end
     end
   end

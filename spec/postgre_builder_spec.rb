@@ -75,4 +75,34 @@ RSpec.describe Sqlbuilder::Builders::PostgresBuilder do
       expect(query).to eq "DELETE FROM Users WHERE first_name = 'john'"
     end
   end
+
+  describe "sequence" do
+    it 'can build a CREATE SEQUENCE query' do
+      query = sql.sequence('user_id_seq')
+                .create
+
+      expect(query).to eq "CREATE SEQUENCE user_id_seq"
+    end
+
+    it 'can build a query for selecting next value of sequence' do
+      query = sql.sequence('user_id_seq')
+                .next_val
+
+      expect(query).to eq "SELECT nextval('user_id_seq')"
+    end
+
+    it 'can build a query for selecting current value of sequence' do
+      query = sql.sequence('user_id_seq')
+                .current_val
+
+      expect(query).to eq "SELECT currval('user_id_seq')"
+    end
+
+    it 'can build a query for setting the value of sequence' do
+      query = sql.sequence('user_id_seq')
+                .set_val(5)
+
+      expect(query).to eq "setval('user_id_seq', '5')"
+    end
+  end
 end
