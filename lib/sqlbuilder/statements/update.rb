@@ -26,8 +26,8 @@ module Sqlbuilder
       def build
         sql = "UPDATE #{@table}"
 
-        sql << " #{build_set(@set)}"
-        sql << " #{build_where(@where)}" if @where
+        sql << " #{build_set}"
+        sql << " #{build_where}" if @where
 
         sql
       end

@@ -20,8 +20,8 @@ module Sqlbuilder
       def build
         sql = "DELETE"
 
-        sql << " #{build_from(@table)}"
-        sql << " #{build_where(@where)}" if @where
+        sql << " #{build_from}"
+        sql << " #{build_where}" if @where
 
         sql
       end

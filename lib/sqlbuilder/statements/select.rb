@@ -18,8 +18,8 @@ module Sqlbuilder
         @columns << column
       end
 
-      def from(table_name)
-        @table_name = table_name
+      def from(table)
+        @table = table
 
         self
       end
@@ -60,13 +60,13 @@ module Sqlbuilder
 
       def build
         sql = "SELECT"
-        sql << " #{build_columns(@columns)}"
-        sql << " #{build_from(@table_name)}"
-        sql << " #{build_joins(@joins)}" unless @joins.empty?
-        sql << " #{build_where(@where)}" if @where
-        sql << " #{build_order(@order)}" if @order
-        sql << " #{build_limit(@limit)}" if @limit
-        sql << " #{build_offset(@offset)}" if @offset
+        sql << " #{build_columns}"
+        sql << " #{build_from}"
+        sql << " #{build_joins}" unless @joins.empty?
+        sql << " #{build_where}" if @where
+        sql << " #{build_order}" if @order
+        sql << " #{build_limit}" if @limit
+        sql << " #{build_offset}" if @offset
 
         sql
       end

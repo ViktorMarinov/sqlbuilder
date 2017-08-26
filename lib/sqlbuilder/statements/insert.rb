@@ -7,7 +7,7 @@ module Sqlbuilder
 
       def initialize
         @columns = []
-        @values_array = []
+        @values_list = []
         @records = []
       end
 
@@ -24,7 +24,7 @@ module Sqlbuilder
       end
 
       def values(single_row_values)
-        @values_array << single_row_values
+        @values_list << single_row_values
 
         self
       end
@@ -41,12 +41,12 @@ module Sqlbuilder
         unless @records.empty?
           @columns = @records.first.keys
 
-          @records.each {|record| @values_array << record.values }
+          @records.each {|record| @values_list << record.values }
         end
 
-        sql << " #{build_into(@table)}"
-        sql << " #{build_columns(@columns)}"
-        sql << " #{build_values(@values_array)}"
+        sql << " #{build_into}"
+        sql << " #{build_columns}"
+        sql << " #{build_values}"
 
         sql
       end

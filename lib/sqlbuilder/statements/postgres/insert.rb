@@ -8,13 +8,12 @@ module Sqlbuilder
         include Generators::Postgres::InsertGenerator
 
         def on_conflict(conflict_target)
-          @on_conflict = conflict_target
+          @conflict_target = conflict_target
 
           self
         end
 
         def update(values_to_update)
-          @do_update = true
           @values_to_update = values_to_update
 
           self
@@ -27,9 +26,9 @@ module Sqlbuilder
         def build
           sql = super
 
-          if @on_conflict
-            sql << " #{build_on_conflict(@on_conflict)}"
-            sql << " #{build_update(@values_to_update)}"
+          if @conflict_target
+            sql << " #{build_on_conflict}"
+            sql << " #{build_update}"
           end
 
           sql

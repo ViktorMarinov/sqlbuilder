@@ -6,12 +6,12 @@ module Sqlbuilder
       module InsertGenerator
         include Generators::InsertGenerator
 
-        def build_on_conflict(conflict_target)
-          "ON CONFLICT (#{conflict_target.join(',')})"
+        def build_on_conflict
+          "ON CONFLICT (#{@conflict_target.join(',')})"
         end
 
-        def build_update(updates)
-          set_list = updates.map do |key, value|
+        def build_update
+          set_list = @values_to_update.map do |key, value|
             "#{key} = #{format_single_value(value)}"
           end
 
