@@ -60,6 +60,27 @@ RSpec.describe Sqlbuilder::Builder do
 
       expect(query).to eq "SELECT * FROM Users LIMIT 20 OFFSET 10"
     end
+
+    it 'can create a select with join' do
+      query = sql.select
+                .from("Players")
+                .join("Teams")
+                .build
+
+      expect(query).to eq "SELECT * FROM Players INNER JOIN Teams"
+    end
+
+    it 'can create join on columns' do
+      query = sql.select
+                .from("Players")
+                .join("Teams", on: {team_id: :id})
+                .build
+
+      expect(query).to eq "SELECT * FROM Players"\
+                          " INNER JOIN Teams"\
+                          " ON Players.team_id = Teams.id"
+
+    end
   end
 
   describe "insert" do

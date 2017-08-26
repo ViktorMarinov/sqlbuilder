@@ -7,6 +7,7 @@ module Sqlbuilder
 
       def initialize
         @columns = []
+        @joins = []
       end
 
       def columns(columns)
@@ -47,10 +48,21 @@ module Sqlbuilder
         self
       end
 
+      def join(from, type: "INNER", on: {})
+        @joins << {
+          from: from,
+          type: type,
+          on: on
+        }
+
+        self
+      end
+
       def build
         sql = "SELECT"
         sql << " #{build_columns(@columns)}"
         sql << " #{build_from(@table_name)}"
+        sql << " #{build_joins(@joins)}" unless @joins.empty?
         sql << " #{build_where(@where)}" if @where
         sql << " #{build_order(@order)}" if @order
         sql << " #{build_limit(@limit)}" if @limit

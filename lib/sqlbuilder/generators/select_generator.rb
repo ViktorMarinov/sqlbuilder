@@ -13,6 +13,25 @@ module Sqlbuilder
         "FROM #{table_name}"
       end
 
+      def build_joins(joins_list)
+        join_lines = joins_list.map do |join|
+          from = join[:from]
+          type = join[:type]
+          on = join[:on].map do |table1_col, table2_col|
+            "#{@table_name}.#{table1_col} = #{from}.#{table2_col}"
+          end
+
+          join_statement = "#{type} JOIN #{from}"
+          unless on.empty?
+            join_statement << " ON #{on.join(' AND ')}"
+          end
+
+          join_statement
+        end
+
+        join_lines.join(' ')
+      end
+
       def build_where(query_hash)
         where_clause = query_hash.map do |key, value|
           if value.is_a?(String) &&
