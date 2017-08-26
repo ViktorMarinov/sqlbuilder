@@ -1,9 +1,11 @@
+require_relative '../generators/insert_generator'
+
 module Sqlbuilder
   module Statements
     class Insert
+      include Generators::InsertGenerator
 
-      def initialize(insert_builder)
-        @insert_builder = insert_builder
+      def initialize
         @columns = []
         @values_array = []
         @records = []
@@ -42,9 +44,9 @@ module Sqlbuilder
           @records.each { |record| @values_array << record.values}
         end
 
-        sql << " #{@insert_builder.into(@table)}"
-        sql << " #{@insert_builder.columns(@columns)}"
-        sql << " #{@insert_builder.values(@values_array)}"
+        sql << " #{build_into(@table)}"
+        sql << " #{build_columns(@columns)}"
+        sql << " #{build_values(@values_array)}"
 
         sql
       end

@@ -1,10 +1,9 @@
+require_relative '../generators/update_generator'
+
 module Sqlbuilder
   module Statements
     class Update
-
-      def initialize(update_builder)
-        @update_builder = update_builder
-      end
+      include Generators::UpdateGenerator
 
       def table(table)
         @table = table
@@ -27,8 +26,8 @@ module Sqlbuilder
       def build
         sql = "UPDATE #{@table}"
 
-        sql << " #{@update_builder.set(@set)}"
-        sql << " #{@update_builder.where(@where)}" if @where
+        sql << " #{build_set(@set)}"
+        sql << " #{build_where(@where)}" if @where
 
         sql
       end

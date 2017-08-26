@@ -1,8 +1,7 @@
 module Sqlbuilder
   module Statements
     class Sequence
-      def initialize(sequence_builder, name)
-        @sequence_builder = sequence_builder
+      def initialize(name)
         @name = name
       end
 

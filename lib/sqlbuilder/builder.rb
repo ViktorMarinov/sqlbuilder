@@ -5,24 +5,20 @@ require_relative 'statements/delete'
 
 module Sqlbuilder
 	class Builder
-		def initialize(dialect)
-			@dialect = dialect
-		end
-
  		def select
-			Statements::Select.new(@dialect.select_builder)
+			Statements::Select.new
 		end
 
     def insert
-      Statements::Insert.new(@dialect.insert_builder)
+      Statements::Insert.new
     end
 
     def update
-      Statements::Update.new(@dialect.update_builder)
+      Statements::Update.new
     end
 
     def delete
-      Statements::Delete.new(@dialect.delete_builder)
+      Statements::Delete.new
     end
 	end
 end

@@ -1,10 +1,9 @@
+require_relative '../generators/delete_generator'
+
 module Sqlbuilder
   module Statements
     class Delete
-
-      def initialize(delete_builder)
-        @delete_builder = delete_builder
-      end
+      include Generators::DeleteGenerator
 
       def from(table)
         @table = table
@@ -21,8 +20,8 @@ module Sqlbuilder
       def build
         sql = "DELETE"
 
-        sql << " #{@delete_builder.from(@table)}"
-        sql << " #{@delete_builder.where(@where)}" if @where
+        sql << " #{build_from(@table)}"
+        sql << " #{build_where(@where)}" if @where
 
         sql
       end

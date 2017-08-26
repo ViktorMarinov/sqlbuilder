@@ -1,17 +1,9 @@
-require_relative '../insert'
+require_relative '../update'
 
 module Sqlbuilder
   module Statements
     module Postgres
-      class Insert < Statements::Insert
-        def on_conflict(columns)
-
-        end
-
-        def update
-
-        end
-
+      class Update < Statements::Update
         def format_single_value(value)
           "'#{value}'"
         end

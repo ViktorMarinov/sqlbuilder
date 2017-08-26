@@ -1,6 +1,5 @@
 require "spec_helper"
 require "sqlbuilder/builder"
-require "sqlbuilder/dialects/default"
 
 RSpec.describe Sqlbuilder do
   it "has a version number" do
@@ -8,8 +7,7 @@ RSpec.describe Sqlbuilder do
   end
 
   let(:sql) do
-    dialect = Sqlbuilder::Dialects::Default.new
-    Sqlbuilder::Builder.new(dialect)
+    Sqlbuilder::Builder.new
   end
 
   describe 'select' do
@@ -27,7 +25,7 @@ RSpec.describe Sqlbuilder do
                 .where({username: 'john'})
                 .build()
 
-      expect(query).to eq "SELECT * FROM Users WHERE username = 'john'"
+      expect(query).to eq "SELECT * FROM Users WHERE username = john"
     end
 
     it 'can create a select with inequalities in where' do
@@ -36,7 +34,7 @@ RSpec.describe Sqlbuilder do
                 .where({age: '> 14'})
                 .build()
 
-      expect(query).to eq "SELECT * FROM Users WHERE age > '14'"
+      expect(query).to eq "SELECT * FROM Users WHERE age > 14"
     end
 
     it 'can combine equality and inequality in a query' do
@@ -45,7 +43,7 @@ RSpec.describe Sqlbuilder do
                 .where({age: 20, username: "!= Gosho"})
                 .build()
 
-      expect(query).to eq "SELECT * FROM Users WHERE age = '20' AND username != 'Gosho'"
+      expect(query).to eq "SELECT * FROM Users WHERE age = 20 AND username != Gosho"
     end
 
     it 'can create a select with order by' do
@@ -75,7 +73,7 @@ RSpec.describe Sqlbuilder do
                 .record({name: 'john'})
                 .build()
 
-      expect(query).to eq "INSERT INTO Students (name) VALUES ('john')"
+      expect(query).to eq "INSERT INTO Students (name) VALUES (john)"
     end
 
     it 'can create an insert with multiple columns' do
@@ -84,7 +82,7 @@ RSpec.describe Sqlbuilder do
                 .record({name: 'john', age: 20})
                 .build()
 
-      expect(query).to eq "INSERT INTO Students (name, age) VALUES ('john', '20')"
+      expect(query).to eq "INSERT INTO Students (name, age) VALUES (john, 20)"
     end
 
     it 'can create an insert using columns and values methods' do
@@ -95,7 +93,7 @@ RSpec.describe Sqlbuilder do
                 .values(['peter', 25])
                 .build()
 
-      expect(query).to eq "INSERT INTO Students (name, age) VALUES ('john', '20'), ('peter', '25')"
+      expect(query).to eq "INSERT INTO Students (name, age) VALUES (john, 20), (peter, 25)"
     end
   end
 
@@ -106,7 +104,7 @@ RSpec.describe Sqlbuilder do
                 .set({username: 'john', age: 25})
                 .build()
 
-      expect(query).to eq "UPDATE Users SET username = 'john', age = '25'"
+      expect(query).to eq "UPDATE Users SET username = john, age = 25"
     end
 
     it 'can create an update with where clause' do
@@ -116,7 +114,7 @@ RSpec.describe Sqlbuilder do
                 .where({id: 2})
                 .build()
 
-      expect(query).to eq "UPDATE Users SET username = 'john', age = '25' WHERE id = '2'"
+      expect(query).to eq "UPDATE Users SET username = john, age = 25 WHERE id = 2"
     end
   end
 
@@ -135,7 +133,7 @@ RSpec.describe Sqlbuilder do
                 .where({first_name: 'john'})
                 .build()
 
-      expect(query).to eq "DELETE FROM Users WHERE first_name = 'john'"
+      expect(query).to eq "DELETE FROM Users WHERE first_name = john"
     end
   end
 end
