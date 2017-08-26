@@ -1,4 +1,4 @@
-require_relative '../generators/insert_generator'
+require_relative "../generators/insert_generator"
 
 module Sqlbuilder
   module Statements
@@ -41,7 +41,7 @@ module Sqlbuilder
         unless @records.empty?
           @columns = @records.first.keys
 
-          @records.each { |record| @values_array << record.values}
+          @records.each {|record| @values_array << record.values }
         end
 
         sql << " #{build_into(@table)}"

@@ -1,4 +1,4 @@
-require_relative '../generators/update_generator'
+require_relative "../generators/update_generator"
 
 module Sqlbuilder
   module Statements

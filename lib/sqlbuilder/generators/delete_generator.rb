@@ -1,4 +1,4 @@
-require_relative 'select_generator'
+require_relative "select_generator"
 
 module Sqlbuilder
   module Generators

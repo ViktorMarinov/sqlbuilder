@@ -1,4 +1,4 @@
-require_relative '../builder'
+require_relative "../builder"
 
 module Sqlbuilder
   module Builders

@@ -1,4 +1,4 @@
-require_relative '../select'
+require_relative "../select"
 
 module Sqlbuilder
   module Statements

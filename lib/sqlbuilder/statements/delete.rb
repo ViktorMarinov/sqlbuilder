@@ -1,4 +1,4 @@
-require_relative '../generators/delete_generator'
+require_relative "../generators/delete_generator"
 
 module Sqlbuilder
   module Statements

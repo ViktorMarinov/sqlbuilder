@@ -4,17 +4,17 @@ module Sqlbuilder
       def build_where(query_hash)
         where_clause = query_hash.map do |key, value|
           "#{key} = #{format_single_value(value)}"
-        end.join(' AND ')
+        end
 
-        "WHERE #{where_clause}"
+        "WHERE #{where_clause.join(" AND ")}"
       end
 
       def build_set(set_hash)
         set_list = set_hash.map do |key, value|
           "#{key} = #{format_single_value(value)}"
-        end.join(', ')
+        end
 
-        "SET #{set_list}"
+        "SET #{set_list.join(", ")}"
       end
 
       def format_single_value(value)

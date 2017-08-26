@@ -1,8 +1,8 @@
-require_relative '../builder'
-require_relative '../statements/postgres/insert'
-require_relative '../statements/postgres/select'
-require_relative '../statements/postgres/update'
-require_relative '../statements/postgres/delete'
+require_relative "../builder"
+require_relative "../statements/postgres/insert"
+require_relative "../statements/postgres/select"
+require_relative "../statements/postgres/update"
+require_relative "../statements/postgres/delete"
 
 module Sqlbuilder
   module Builders

@@ -1,4 +1,4 @@
-require_relative '../delete'
+require_relative "../delete"
 
 module Sqlbuilder
   module Statements

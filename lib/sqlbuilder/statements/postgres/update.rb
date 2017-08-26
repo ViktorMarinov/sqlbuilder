@@ -1,4 +1,4 @@
-require_relative '../update'
+require_relative "../update"
 
 module Sqlbuilder
   module Statements
