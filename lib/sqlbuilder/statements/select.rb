@@ -63,8 +63,8 @@ module Sqlbuilder
         sql << " #{build_columns}"
         sql << " #{build_from}"
         sql << " #{build_joins}" unless @joins.empty?
-        sql << " #{build_where}" if @where
-        sql << " #{build_order}" if @order
+        sql << " #{build_where}" if @where && !@where.empty?
+        sql << " #{build_order}" if @order && !@order.empty?
         sql << " #{build_limit}" if @limit
         sql << " #{build_offset}" if @offset
 

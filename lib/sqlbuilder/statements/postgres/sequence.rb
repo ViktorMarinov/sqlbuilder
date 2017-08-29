@@ -10,6 +10,10 @@ module Sqlbuilder
           "CREATE SEQUENCE #{@name}"
         end
 
+        def create_unless_exists
+          "CREATE SEQUENCE IF NOT EXISTS #{@name}"
+        end
+
         def next_val
           "SELECT nextval('#{@name}')"
         end

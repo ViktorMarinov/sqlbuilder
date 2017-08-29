@@ -21,7 +21,7 @@ module Sqlbuilder
         sql = "DELETE"
 
         sql << " #{build_from}"
-        sql << " #{build_where}" if @where
+        sql << " #{build_where}" if @where && !@where.empty?
 
         sql
       end
