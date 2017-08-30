@@ -81,6 +81,26 @@ RSpec.describe Sqlbuilder::Builder do
                           " ON Players.team_id = Teams.id"
 
     end
+
+    it 'can build queries with aggregations' do
+      query = sql.select
+                .from("Products")
+                .column("COUNT(*)")
+                .build
+
+      expect(query).to eq "SELECT COUNT(*) FROM Products"
+    end
+
+    it 'can combine aggregations with where' do
+      query = sql.select
+                .from("Products")
+                .column("COUNT(id)")
+                .where(price: "> 150")
+                .build
+
+      expect(query).to eq "SELECT COUNT(id) FROM Products"\
+                          " WHERE price > 150"
+    end
   end
 
   describe "insert" do

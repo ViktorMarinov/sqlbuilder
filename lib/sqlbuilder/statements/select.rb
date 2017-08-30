@@ -12,10 +12,14 @@ module Sqlbuilder
 
       def columns(columns)
         @columns = columns
+
+        self
       end
 
       def column(column)
         @columns << column
+
+        self
       end
 
       def from(table)

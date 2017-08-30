@@ -35,7 +35,7 @@ module Sqlbuilder
       def build_where
         where_clause = @where.map do |key, value|
           if value.is_a?(String) &&
-             [">", "<", "!="].any? {|comp| value.include? comp }
+             [">", "<", "!=", ">=", "<="].any? {|comp| value.include? comp }
 
             # TODO: raise custom exception if has more values after split
             symbol, extracted_value = value.split(" ")
