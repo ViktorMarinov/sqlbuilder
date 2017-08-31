@@ -16,15 +16,15 @@ module Sqlbuilder
         self
       end
 
-      def column(column)
-        @columns << column
+      def column(column, as: nil)
+        @columns << {col: column, as: as}
 
         self
       end
 
-      def from(table)
+      def from(table, aliaz: nil)
         @table = table
-
+        @aliaz = aliaz
         self
       end
 
@@ -52,10 +52,11 @@ module Sqlbuilder
         self
       end
 
-      def join(from, type: "INNER", on: {})
+      def join(from, type: "INNER", aliaz: nil, on: {})
         @joins << {
           from: from,
           type: type,
+          aliaz: aliaz,
           on: on
         }
 

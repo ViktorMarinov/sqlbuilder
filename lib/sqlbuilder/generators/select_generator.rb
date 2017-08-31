@@ -10,18 +10,33 @@ module Sqlbuilder
       end
 
       def build_from
-        "FROM #{@table}"
+        from = "FROM #{@table}"
+        if @aliaz
+          from << " #{@aliaz}"
+        end
+
+        from
       end
 
       def build_joins
         join_lines = @joins.map do |join|
           from = join[:from]
           type = join[:type]
+          aliaz = join[:aliaz]
+
+          table1_alias = if @aliaz then "#{@aliaz}" else "#{@table}" end
+          table2_alias = if aliaz then "#{aliaz}" else "#{from}" end
+
           on = join[:on].map do |table1_col, table2_col|
-            "#{@table}.#{table1_col} = #{from}.#{table2_col}"
+            "#{table1_alias}.#{table1_col} = #{table2_alias}.#{table2_col}"
           end
 
           join_statement = "#{type} JOIN #{from}"
+
+          if aliaz
+            join_statement << " #{aliaz}"
+          end
+
           unless on.empty?
             join_statement << " ON #{on.join(' AND ')}"
           end
@@ -39,9 +54,9 @@ module Sqlbuilder
 
             # TODO: raise custom exception if has more values after split
             symbol, extracted_value = value.split(" ")
-            "#{key} #{symbol} #{format_single_value(extracted_value)}"
+            "#{prefix}#{key} #{symbol} #{format_single_value(extracted_value)}"
           else
-            "#{key} = #{format_single_value(value)}"
+            "#{prefix}#{key} = #{format_single_value(value)}"
           end
         end
 
@@ -49,7 +64,7 @@ module Sqlbuilder
       end
 
       def build_order
-        order_by_clause = @order.map {|key, order| "#{key} #{order}" }.join(", ")
+        order_by_clause = @order.map {|key, order| "#{prefix}#{key} #{order}" }.join(", ")
 
         "ORDER BY #{order_by_clause}"
       end
@@ -63,11 +78,27 @@ module Sqlbuilder
       end
 
       def format_single_column(column)
-        column.to_s
+        col = column[:col].to_s
+        if column[:as]
+          "#{col} AS #{column[:as]}"
+        else
+          col
+        end
+
       end
 
       def format_single_value(value)
         value.to_s
+      end
+
+      private
+
+      def prefix
+        if @aliaz
+          "#{@aliaz}."
+        else
+          ""
+        end
       end
     end
   end
