@@ -105,9 +105,9 @@ RSpec.describe Sqlbuilder::Builder do
     it 'can give aliases to tables' do
       query = sql.select
                 .from("Players", aliaz: 'p')
-                .column("p.*")
-                .column("t.id", as: 'team_id')
-                .column("t.name", as: 'team_name')
+                .column("*", from: 'p')
+                .column("id", from: 't', as: 'team_id')
+                .column("name", from: 't', as: 'team_name')
                 .join("Teams", aliaz: 't', on: {team_id: :id})
                 .build
 

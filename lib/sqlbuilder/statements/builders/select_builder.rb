@@ -4,7 +4,7 @@ module Sqlbuilder
       module SelectBuilder
         def build_columns
           if @columns.empty?
-            "*"
+            "#{prefix}*"
           else
             @columns.map {|col| format_column_with_alias(col)}.join(", ")
           end
@@ -59,7 +59,8 @@ module Sqlbuilder
 
               # TODO: raise custom exception if has more values after split
               symbol, extracted_value = value.split(" ")
-              "#{prefix}#{@utils.format_column(key)} #{symbol} #{@utils.format_value(extracted_value)}"
+              "#{prefix}#{@utils.format_column(key)} #{symbol} "\
+              "#{@utils.format_value(extracted_value)}"
             else
               "#{prefix}#{@utils.format_column(key)} = #{@utils.format_value(value)}"
             end
@@ -88,6 +89,11 @@ module Sqlbuilder
 
         def format_column_with_alias(column)
           col = @utils.format_column(column[:col])
+
+          if column[:from]
+            col = "#{column[:from]}.#{col}"
+          end
+
           if column[:as]
             "#{col} AS #{@utils.format_column(column[:as])}"
           else

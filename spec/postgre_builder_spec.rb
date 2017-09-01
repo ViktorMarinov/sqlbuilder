@@ -23,6 +23,22 @@ RSpec.describe Sqlbuilder::Builders::PostgresBuilder do
 
       expect(query).to eq "SELECT * FROM Users WHERE \"username\" = 'john'"
     end
+
+    it 'can give aliases to tables' do
+      query = sql.select
+                .from("Players", aliaz: 'p')
+                .column("*", from: 'p')
+                .column("id", from: 't', as: 'team_id')
+                .column("name", from: 't', as: 'team_name')
+                .join("Teams", aliaz: 't', on: {team_id: :id})
+                .build
+
+      expect(query).to eq "SELECT p.*, t.\"id\" AS \"team_id\","\
+                          " t.\"name\" AS \"team_name\""\
+                          " FROM Players p"\
+                          " INNER JOIN Teams t"\
+                          " ON p.\"team_id\" = t.\"id\""
+    end
   end
 
   describe "insert" do

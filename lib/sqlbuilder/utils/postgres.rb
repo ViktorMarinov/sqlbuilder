@@ -8,7 +8,11 @@ module Sqlbuilder
       end
 
       def format_column(column)
-        "\"#{column}\"" unless column == "*"
+        if column == '*'
+          '*'
+        else
+          "\"#{column}\""
+        end
       end
 
       def escape_string(string)

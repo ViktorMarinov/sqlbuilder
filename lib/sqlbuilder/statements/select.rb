@@ -17,8 +17,8 @@ module Sqlbuilder
         self
       end
 
-      def column(column, as: nil)
-        @columns << {col: column, as: as}
+      def column(column, from: nil, as: nil)
+        @columns << {col: column, from: from, as: as}
 
         self
       end
