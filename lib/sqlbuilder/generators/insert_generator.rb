@@ -13,15 +13,11 @@ module Sqlbuilder
 
       def build_values
         values_str = @values_list
-                     .map {|values| values.map {|value| format_single_value(value) }.join(", ") }
-                     .map {|values| "(#{values})" }
-                     .join(", ")
+          .map {|values| values.map {|value| @utils.format_value(value) }.join(", ") }
+          .map {|values| "(#{values})" }
+          .join(", ")
 
         "VALUES #{values_str}"
-      end
-
-      def format_single_value(value)
-        value.to_s
       end
     end
   end

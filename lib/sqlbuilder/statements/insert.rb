@@ -5,7 +5,8 @@ module Sqlbuilder
     class Insert
       include Generators::InsertGenerator
 
-      def initialize
+      def initialize(utils)
+        @utils = utils
         @columns = []
         @values_list = []
         @records = []

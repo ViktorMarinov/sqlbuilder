@@ -5,7 +5,8 @@ module Sqlbuilder
     class Select
       include Generators::SelectGenerator
 
-      def initialize
+      def initialize(utils)
+        @utils = utils
         @columns = []
         @joins = []
       end

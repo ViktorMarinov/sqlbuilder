@@ -5,6 +5,10 @@ module Sqlbuilder
     class Delete
       include Generators::DeleteGenerator
 
+      def initialize(utils)
+        @utils = utils
+      end
+
       def from(table)
         @table = table
 

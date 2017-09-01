@@ -5,7 +5,7 @@ module Sqlbuilder
         if @columns.empty?
           "*"
         else
-          @columns.map {|col| format_single_column(col) }.join(", ")
+          @columns.map {|col| format_single_column(col)}.join(", ")
         end
       end
 
@@ -54,9 +54,9 @@ module Sqlbuilder
 
             # TODO: raise custom exception if has more values after split
             symbol, extracted_value = value.split(" ")
-            "#{prefix}#{key} #{symbol} #{format_single_value(extracted_value)}"
+            "#{prefix}#{key} #{symbol} #{@utils.format_value(extracted_value)}"
           else
-            "#{prefix}#{key} = #{format_single_value(value)}"
+            "#{prefix}#{key} = #{@utils.format_value(value)}"
           end
         end
 
@@ -84,11 +84,6 @@ module Sqlbuilder
         else
           col
         end
-
-      end
-
-      def format_single_value(value)
-        value.to_s
       end
 
       private

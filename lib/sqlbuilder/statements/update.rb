@@ -5,6 +5,10 @@ module Sqlbuilder
     class Update
       include Generators::UpdateGenerator
 
+      def initialize(utils)
+        @utils = utils
+      end
+
       def table(table)
         @table = table
 

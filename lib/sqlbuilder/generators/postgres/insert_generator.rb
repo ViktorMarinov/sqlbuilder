@@ -12,7 +12,7 @@ module Sqlbuilder
 
         def build_update
           set_list = @values_to_update.map do |key, value|
-            "#{key} = #{format_single_value(value)}"
+            "#{key} = #{@utils.format_value(value)}"
           end
 
           "DO UPDATE SET #{set_list.join(", ")}"

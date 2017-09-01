@@ -19,10 +19,6 @@ module Sqlbuilder
           self
         end
 
-        def format_single_value(value)
-          "'#{value}'"
-        end
-
         def build
           sql = super
 
