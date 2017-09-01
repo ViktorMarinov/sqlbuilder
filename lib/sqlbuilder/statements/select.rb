@@ -49,10 +49,10 @@ module Sqlbuilder
 
       def join(from, type: "INNER", aliaz: nil, on: {})
         @joins << {
-          from: from,
-          type: type,
+          from:  from,
+          type:  type,
           aliaz: aliaz,
-          on: on
+          on:    on
         }
 
         self

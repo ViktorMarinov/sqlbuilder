@@ -61,7 +61,7 @@ RSpec.describe Sqlbuilder::Builder do
       expect(query).to eq "SELECT * FROM Users LIMIT 20 OFFSET 10"
     end
 
-    it 'can create a select with join' do
+    it "can create a select with join" do
       query = sql.select
                 .from("Players")
                 .join("Teams")
@@ -70,7 +70,7 @@ RSpec.describe Sqlbuilder::Builder do
       expect(query).to eq "SELECT * FROM Players INNER JOIN Teams"
     end
 
-    it 'can create join on columns' do
+    it "can create join on columns" do
       query = sql.select
                 .from("Players")
                 .join("Teams", on: {team_id: :id})
@@ -82,7 +82,7 @@ RSpec.describe Sqlbuilder::Builder do
 
     end
 
-    it 'can build queries with aggregations' do
+    it "can build queries with aggregations" do
       query = sql.select
                 .from("Products")
                 .aggregation("COUNT", "*")
@@ -91,10 +91,10 @@ RSpec.describe Sqlbuilder::Builder do
       expect(query).to eq "SELECT COUNT(*) FROM Products"
     end
 
-    it 'can combine aggregations with where' do
+    it "can combine aggregations with where" do
       query = sql.select
                 .from("Products")
-                .aggregation('COUNT', 'id')
+                .aggregation("COUNT", "id")
                 .where(price: "> 150")
                 .build
 
@@ -102,13 +102,13 @@ RSpec.describe Sqlbuilder::Builder do
                           " WHERE price > 150"
     end
 
-    it 'can give aliases to tables' do
+    it "can give aliases to tables" do
       query = sql.select
-                .from("Players", aliaz: 'p')
-                .column("*", from: 'p')
-                .column("id", from: 't', as: 'team_id')
-                .column("name", from: 't', as: 'team_name')
-                .join("Teams", aliaz: 't', on: {team_id: :id})
+                .from("Players", aliaz: "p")
+                .column("*", from: "p")
+                .column("id", from: "t", as: "team_id")
+                .column("name", from: "t", as: "team_name")
+                .join("Teams", aliaz: "t", on: {team_id: :id})
                 .build
 
       expect(query).to eq "SELECT p.*, t.id AS team_id, t.name AS team_name"\

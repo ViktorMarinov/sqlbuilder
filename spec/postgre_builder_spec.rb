@@ -24,13 +24,13 @@ RSpec.describe Sqlbuilder::Builders::PostgresBuilder do
       expect(query).to eq "SELECT * FROM Users WHERE \"username\" = 'john'"
     end
 
-    it 'can give aliases to tables' do
+    it "can give aliases to tables" do
       query = sql.select
-                .from("Players", aliaz: 'p')
-                .column("*", from: 'p')
-                .column("id", from: 't', as: 'team_id')
-                .column("name", from: 't', as: 'team_name')
-                .join("Teams", aliaz: 't', on: {team_id: :id})
+                .from("Players", aliaz: "p")
+                .column("*", from: "p")
+                .column("id", from: "t", as: "team_id")
+                .column("name", from: "t", as: "team_name")
+                .join("Teams", aliaz: "t", on: {team_id: :id})
                 .build
 
       expect(query).to eq "SELECT p.*, t.\"id\" AS \"team_id\","\
@@ -94,29 +94,29 @@ RSpec.describe Sqlbuilder::Builders::PostgresBuilder do
   end
 
   describe "sequence" do
-    it 'can build a CREATE SEQUENCE query' do
-      query = sql.sequence('user_id_seq')
+    it "can build a CREATE SEQUENCE query" do
+      query = sql.sequence("user_id_seq")
                 .create
 
       expect(query).to eq "CREATE SEQUENCE user_id_seq"
     end
 
-    it 'can build a query for selecting next value of sequence' do
-      query = sql.sequence('user_id_seq')
+    it "can build a query for selecting next value of sequence" do
+      query = sql.sequence("user_id_seq")
                 .next_val
 
       expect(query).to eq "SELECT nextval('user_id_seq')"
     end
 
-    it 'can build a query for selecting current value of sequence' do
-      query = sql.sequence('user_id_seq')
+    it "can build a query for selecting current value of sequence" do
+      query = sql.sequence("user_id_seq")
                 .current_val
 
       expect(query).to eq "SELECT currval('user_id_seq')"
     end
 
-    it 'can build a query for setting the value of sequence' do
-      query = sql.sequence('user_id_seq')
+    it "can build a query for setting the value of sequence" do
+      query = sql.sequence("user_id_seq")
                 .set_val(5)
 
       expect(query).to eq "setval('user_id_seq', '5')"

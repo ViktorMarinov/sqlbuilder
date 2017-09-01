@@ -1,6 +1,6 @@
-require 'pg'
+require "pg"
 
-require_relative 'default'
+require_relative "default"
 
 module Sqlbuilder
   module Utils
@@ -10,8 +10,8 @@ module Sqlbuilder
       end
 
       def format_column(column)
-        if column == '*'
-          '*'
+        if column == "*"
+          "*"
         else
           "\"#{column}\""
         end

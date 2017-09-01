@@ -6,7 +6,7 @@ module Sqlbuilder
           if @columns.empty?
             "#{prefix}*"
           else
-            @columns.map {|col| build_column(col)}.join(", ")
+            @columns.map {|col| build_column(col) }.join(", ")
           end
         end
 
@@ -49,7 +49,7 @@ module Sqlbuilder
             join_statement
           end
 
-          join_lines.join(' ')
+          join_lines.join(" ")
         end
 
         def build_where
