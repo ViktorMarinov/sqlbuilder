@@ -14,7 +14,11 @@ module Sqlbuilder
 
         def build_values
           values_str = @values_list
-            .map {|values| values.map {|value| @utils.format_value(value) }.join(", ") }
+            .map do |values|
+              values.map do |value|
+                @utils.format_value(@utils.escape_value(value))
+              end.join(", ")
+            end
             .map {|values| "(#{values})" }
             .join(", ")
 

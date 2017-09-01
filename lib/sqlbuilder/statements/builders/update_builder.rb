@@ -4,7 +4,8 @@ module Sqlbuilder
       module UpdateBuilder
         def build_where
           where_clause = @where.map do |key, value|
-            "#{key} = #{@utils.format_value(value)}"
+            escaped = @utils.escape_value(value)
+            "#{key} = #{@utils.format_value(escaped)}"
           end
 
           "WHERE #{where_clause.join(" AND ")}"

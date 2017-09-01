@@ -85,7 +85,7 @@ RSpec.describe Sqlbuilder::Builder do
     it 'can build queries with aggregations' do
       query = sql.select
                 .from("Products")
-                .column("COUNT(*)")
+                .aggregation("COUNT", "*")
                 .build
 
       expect(query).to eq "SELECT COUNT(*) FROM Products"
@@ -94,7 +94,7 @@ RSpec.describe Sqlbuilder::Builder do
     it 'can combine aggregations with where' do
       query = sql.select
                 .from("Products")
-                .column("COUNT(id)")
+                .aggregation('COUNT', 'id')
                 .where(price: "> 150")
                 .build
 

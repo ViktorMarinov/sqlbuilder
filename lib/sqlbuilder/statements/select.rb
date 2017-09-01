@@ -11,12 +11,6 @@ module Sqlbuilder
         @joins = []
       end
 
-      def columns(columns)
-        @columns = columns
-
-        self
-      end
-
       def column(column, from: nil, as: nil)
         @columns << {col: column, from: from, as: as}
 
@@ -60,6 +54,12 @@ module Sqlbuilder
           aliaz: aliaz,
           on: on
         }
+
+        self
+      end
+
+      def aggregation(name, column)
+        @columns << {col: column, aggregation: name}
 
         self
       end

@@ -6,19 +6,11 @@ module Sqlbuilder
       end
 
       def format_column(column)
-        "#{column}"
-      end
-
-      def escape_string(string)
-        string.replace("'", "''")
-      end
-
-      def escape_id_string(id_string)
-
+        column.to_s
       end
 
       def escape_value(value)
-
+        value
       end
     end
   end
