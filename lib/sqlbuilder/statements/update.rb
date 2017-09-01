@@ -1,9 +1,9 @@
-require_relative "../generators/update_generator"
+require_relative "builders/update_builder"
 
 module Sqlbuilder
   module Statements
     class Update
-      include Generators::UpdateGenerator
+      include Builders::UpdateBuilder
 
       def initialize(utils)
         @utils = utils

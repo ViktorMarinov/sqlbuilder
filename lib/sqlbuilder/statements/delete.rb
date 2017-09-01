@@ -1,9 +1,9 @@
-require_relative "../generators/delete_generator"
+require_relative "builders/delete_builder"
 
 module Sqlbuilder
   module Statements
     class Delete
-      include Generators::DeleteGenerator
+      include Builders::DeleteBuilder
 
       def initialize(utils)
         @utils = utils

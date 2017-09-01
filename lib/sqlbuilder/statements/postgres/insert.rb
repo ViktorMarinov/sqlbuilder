@@ -1,11 +1,11 @@
 require_relative "../insert"
-require_relative "../../generators/postgres/insert_generator"
+require_relative "../builders/postgres/insert_builder"
 
 module Sqlbuilder
   module Statements
     module Postgres
       class Insert < Statements::Insert
-        include Generators::Postgres::InsertGenerator
+        include Builders::Postgres::InsertBuilder
 
         def on_conflict(conflict_target)
           @conflict_target = conflict_target

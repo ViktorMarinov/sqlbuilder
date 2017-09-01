@@ -1,9 +1,9 @@
-require_relative "../generators/insert_generator"
+require_relative "builders/insert_builder"
 
 module Sqlbuilder
   module Statements
     class Insert
-      include Generators::InsertGenerator
+      include Builders::InsertBuilder
 
       def initialize(utils)
         @utils = utils

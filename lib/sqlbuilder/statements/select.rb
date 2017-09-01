@@ -1,9 +1,9 @@
-require_relative "../generators/select_generator"
+require_relative "builders/select_builder"
 
 module Sqlbuilder
   module Statements
     class Select
-      include Generators::SelectGenerator
+      include Builders::SelectBuilder
 
       def initialize(utils)
         @utils = utils
