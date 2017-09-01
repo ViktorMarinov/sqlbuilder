@@ -7,9 +7,9 @@ module Sqlbuilder
         end
 
         def build_columns
-          columns_str = @columns.map(&:to_s).join(", ")
+          columns_str = @columns.map { |col| @utils.format_column(col) }
 
-          "(#{columns_str})"
+          "(#{columns_str.join(", ")})"
         end
 
         def build_values

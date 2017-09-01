@@ -6,7 +6,7 @@ module Sqlbuilder
           if @columns.empty?
             "*"
           else
-            @columns.map {|col| format_single_column(col)}.join(", ")
+            @columns.map {|col| format_column_with_alias(col)}.join(", ")
           end
         end
 
@@ -28,9 +28,13 @@ module Sqlbuilder
             table1_alias = if @aliaz then "#{@aliaz}" else "#{@table}" end
             table2_alias = if aliaz then "#{aliaz}" else "#{from}" end
 
-            on = join[:on].map do |table1_col, table2_col|
-              "#{table1_alias}.#{table1_col} = #{table2_alias}.#{table2_col}"
-            end
+            on = join[:on]
+              .map do |col1, col2|
+                [@utils.format_column(col1), @utils.format_column(col2)]
+              end
+              .map do |table1_col, table2_col|
+                "#{table1_alias}.#{table1_col} = #{table2_alias}.#{table2_col}"
+              end
 
             join_statement = "#{type} JOIN #{from}"
 
@@ -55,9 +59,9 @@ module Sqlbuilder
 
               # TODO: raise custom exception if has more values after split
               symbol, extracted_value = value.split(" ")
-              "#{prefix}#{key} #{symbol} #{@utils.format_value(extracted_value)}"
+              "#{prefix}#{@utils.format_column(key)} #{symbol} #{@utils.format_value(extracted_value)}"
             else
-              "#{prefix}#{key} = #{@utils.format_value(value)}"
+              "#{prefix}#{@utils.format_column(key)} = #{@utils.format_value(value)}"
             end
           end
 
@@ -65,9 +69,11 @@ module Sqlbuilder
         end
 
         def build_order
-          order_by_clause = @order.map {|key, order| "#{prefix}#{key} #{order}" }.join(", ")
+          order_by_clause = @order.map do |key, order|
+            "#{prefix}#{@utils.format_column(key)} #{order}"
+          end
 
-          "ORDER BY #{order_by_clause}"
+          "ORDER BY #{order_by_clause.join(", ")}"
         end
 
         def build_limit
@@ -78,16 +84,16 @@ module Sqlbuilder
           "OFFSET #{@offset}"
         end
 
-        def format_single_column(column)
-          col = column[:col].to_s
+        private
+
+        def format_column_with_alias(column)
+          col = @utils.format_column(column[:col])
           if column[:as]
-            "#{col} AS #{column[:as]}"
+            "#{col} AS #{@utils.format_column(column[:as])}"
           else
             col
           end
         end
-
-        private
 
         def prefix
           if @aliaz

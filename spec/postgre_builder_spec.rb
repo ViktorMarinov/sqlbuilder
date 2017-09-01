@@ -21,12 +21,12 @@ RSpec.describe Sqlbuilder::Builders::PostgresBuilder do
                  .where(username: "john")
                  .build
 
-      expect(query).to eq "SELECT * FROM Users WHERE username = 'john'"
+      expect(query).to eq "SELECT * FROM Users WHERE \"username\" = 'john'"
     end
   end
 
   describe "insert" do
-    it "quotes all values" do
+    it "quotes all values and columns" do
       query = sql.insert
                  .into("Students")
                  .columns(%i[name age])
@@ -34,7 +34,7 @@ RSpec.describe Sqlbuilder::Builders::PostgresBuilder do
                  .values(["peter", 25])
                  .build
 
-      expect(query).to eq "INSERT INTO Students (name, age)"\
+      expect(query).to eq "INSERT INTO Students (\"name\", \"age\")"\
                           " VALUES ('john', '20'), ('peter', '25')"
     end
 
@@ -46,7 +46,7 @@ RSpec.describe Sqlbuilder::Builders::PostgresBuilder do
                  .update(name: "john", age: 20)
                  .build
 
-      expect(query).to eq "INSERT INTO Students (id, name, age)"\
+      expect(query).to eq "INSERT INTO Students (\"id\", \"name\", \"age\")"\
                           " VALUES ('1', 'john', '20') ON CONFLICT (id)"\
                           " DO UPDATE SET name = 'john', age = '20'"
     end
@@ -60,7 +60,8 @@ RSpec.describe Sqlbuilder::Builders::PostgresBuilder do
                  .where(id: 2)
                  .build
 
-      expect(query).to eq "UPDATE Users SET username = 'john', age = '25'"\
+      expect(query).to eq "UPDATE Users "\
+                          "SET \"username\" = 'john', \"age\" = '25'"\
                           " WHERE id = '2'"
     end
   end
@@ -72,7 +73,7 @@ RSpec.describe Sqlbuilder::Builders::PostgresBuilder do
                  .where(first_name: "john")
                  .build
 
-      expect(query).to eq "DELETE FROM Users WHERE first_name = 'john'"
+      expect(query).to eq "DELETE FROM Users WHERE \"first_name\" = 'john'"
     end
   end
 
